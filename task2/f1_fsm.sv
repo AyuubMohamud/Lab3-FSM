@@ -10,68 +10,46 @@ module f1_fsm (
     always_ff @(posedge clk) begin
         if (rst) begin
             myState <= S0;
+            data_out <= 8'd0;
         end else begin
             case (myState)
                 S0: begin
                     myState <= en ? S1 : S0;
+                    data_out <= en ? 8'h01 : 8'h00;
                 end
                 S1: begin
                     myState <= en ? S2 : S1;
+                    data_out <= en ? 8'h03 : 8'h01;
                 end
                 S2: begin
                     myState <= en ? S3 : S2;
+                    data_out <= en ? 8'h07 : 8'h03;
                 end
                 S3: begin
                     myState <= en ? S4 : S3;
+                    data_out <= en ? 8'h0F : 8'h07;
                 end
                 S4: begin
                     myState <= en ? S5 : S4;
+                    data_out <= en ? 8'h1F : 8'h0F;
                 end
                 S5: begin
                     myState <= en ? S6 : S5;
+                    data_out <= en ? 8'h3F : 8'h1F;
                 end
                 S6: begin
                     myState <= en ? S7 : S6;
+                    data_out <= en ? 8'h7F : 8'h3F;
                 end
                 S7: begin
                     myState <= en ? S8 : S7;
+                    data_out <= en ? 8'hFF : 8'h7F;
                 end
                 S8: begin
                     myState <= en ? S0 : S8;
+                    data_out <= en ? 8'h00 : 8'hFF;
                 end
             endcase
         end
-    end
-    always_comb begin
-        data_out = '0;
-        case (myState)
-            S0: begin
-                data_out = 8'd0;
-            end
-            S1: begin
-                data_out = 8'b00000001;
-            end
-            S2: begin
-                data_out = 8'b00000011;
-            end
-            S3: begin
-                data_out = 8'b00000111;
-            end
-            S4: begin
-                data_out = 8'b00001111;
-            end
-            S5: begin
-                data_out = 8'b00011111;
-            end
-            S6: begin
-                data_out = 8'b00111111;
-            end
-            S7: begin
-                data_out = 8'b01111111;
-            end
-            S8: begin
-                data_out = 8'b11111111;
-            end
-        endcase
     end
 endmodule
